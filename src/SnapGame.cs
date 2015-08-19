@@ -6,6 +6,7 @@ namespace CardGames
 {
     public class SnapGame
     {
+		
         public static void LoadResources()
         {
             Bitmap cards;
@@ -21,11 +22,27 @@ namespace CardGames
 		{
 			//Fetch the next batch of UI interaction
 			SwinGame.ProcessEvents();
-
-			if (SwinGame.KeyTyped (KeyCode.vk_SPACE))
+			if (SwinGame.KeyDown (KeyCode.vk_SPACE))
 			{
-				myGame.FlipNextCard ();
+				myGame.Start ();
 			}
+			if (myGame.IsStarted)
+			{
+				if (SwinGame.KeyTyped (KeyCode.vk_LSHIFT) &&
+				    SwinGame.KeyTyped (KeyCode.vk_RSHIFT))
+				{
+					
+				}
+				else if (SwinGame.KeyTyped (KeyCode.vk_LSHIFT))
+				{
+					myGame.PlayerHit (0);
+				}
+				else if (SwinGame.KeyTyped (KeyCode.vk_RSHIFT))
+				{
+					myGame.PlayerHit (1);
+				}
+			}
+
 		}
 
 		/// <summary>
@@ -68,6 +85,7 @@ namespace CardGames
 
         public static void Main()
         {
+			SwinGame.OpenAudio ();
             //Open the game window
             SwinGame.OpenGraphicsWindow("Snap!", 860, 500);
 
@@ -84,6 +102,7 @@ namespace CardGames
 				DrawGame (myGame);
 				UpdateGame (myGame);
             }
+			SwinGame.CloseAudio ();
         }
     }
 }
